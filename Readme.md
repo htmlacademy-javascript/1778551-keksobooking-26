@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Юра Кравченко](https://up.htmlacademy.ru/javascript/26/user/1778551).
-* Наставник: `Неизвестно`.
+* Наставник: [Антон Попов](https://htmlacademy.ru/profile/joker).
 
 ---
 
