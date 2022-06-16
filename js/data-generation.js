@@ -35,3 +35,5 @@ function createsAds(index) {
 const greateAdsArray = (count) => Array.from({length: count, createsAds}, (_, i) => createsAds(i + 1));
 greateAdsArray(COUNT_ADS);
 
+export{greateAdsArray};
+
