@@ -1,3 +1,3 @@
-import './data.js';
 import './utils.js';
-// import {createsAds, greateAdsArray} from './data.js';
+import './generates-ads.js';
+import './parameters-ads';
