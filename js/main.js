@@ -93,7 +93,7 @@ const collectRandomEl = (array) => {
 };
 
 //Функция создает объявление
-const CREATES_ADS = (index) => {
+const createsAds = (index) => {
   const location = {
     lat: getRandomFloat(Coordinates.LAT_MIN, Coordinates.LAT_MAX),
     lng: getRandomFloat(Coordinates.LNG_MIN, Coordinates.LNG_MAX),
@@ -119,7 +119,7 @@ const CREATES_ADS = (index) => {
   };
 };
 
-const greateAdsArray = (count) => Array.from({length: count, CREATES_ADS}, (_, i) => CREATES_ADS(i + 1));
+const greateAdsArray = (count) => Array.from({length: count, createsAds}, (_, i) => createsAds(i + 1));
 
 // similarWizard(5);
 greateAdsArray(COUNT_ADS);
