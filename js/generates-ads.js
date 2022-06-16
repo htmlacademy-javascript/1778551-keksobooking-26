@@ -1,5 +1,5 @@
 import {getRandomElementArr,  collectRandomEl,  getRandomFloat, getRandomInt} from './utils.js';
-import {TYPES, CHECKIN_TIMES, FEATURES, PHOTOS, Coordinates} from './parameters-ads';
+import {TYPES, CHECKIN_TIMES, FEATURES, PHOTOS, Coordinates} from './parameters-ads.js';
 
 //Количество выводимых объявлений
 const COUNT_ADS = 10;
