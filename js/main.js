@@ -51,7 +51,6 @@ function getRandomInt(a, b) {
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 }
-getRandomInt();
 
 /**
  * Функция вызова случайного числа(Float)
@@ -66,7 +65,6 @@ function getRandomFloat (a, b, digits = 1) {
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
 }
-getRandomFloat();
 
 /**
  *Функция вызова случайного элемента массива
@@ -120,8 +118,4 @@ const createsAds = (index) => {
 };
 
 const greateAdsArray = (count) => Array.from({length: count, createsAds}, (_, i) => createsAds(i + 1));
-
-// similarWizard(5);
 greateAdsArray(COUNT_ADS);
-
-
