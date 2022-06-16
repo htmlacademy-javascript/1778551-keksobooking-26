@@ -1,3 +1,3 @@
 import './utils.js';
 import './generates-ads.js';
-import './parameters-ads';
+import './parameters-ads.js';
