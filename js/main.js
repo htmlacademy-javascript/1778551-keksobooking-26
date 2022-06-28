@@ -1,3 +1,4 @@
-import './utils.js';
-import{greateAdsArray} from './data-generation.js';
-greateAdsArray(10);
+import { createAdsArray } from './data.js';
+createAdsArray(1);
+
+
