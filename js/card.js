@@ -1,14 +1,8 @@
+import {types} from './data.js';
 import {createCapacityMessage} from './utils.js';
+
 const mapCanvas = document.querySelector('#map-canvas');
 const template = document.querySelector('#card').content.querySelector('.popup');
-
-const types = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalow: 'Бунгало',
-  hotel: 'Отель'
-};
 
 /**
  * Функция показывает карточку объявления.

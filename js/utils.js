@@ -25,23 +25,11 @@ function getRandomFloat (a, b, digits = 1) {
   return +result.toFixed(digits);
 }
 
-//Функция для вывода правильного сообщение сколько гостей и комнат
-// const createCapacityMessage = (tag, rooms, guest) => {
-//   if (rooms === 1 && guest === 1) {
-//     tag.textContent = `${rooms} комната для ${guest} гостя`;
-//   } else if (rooms === 1 && guest === 2) {
-//     tag.textContent = `${rooms} комната для ${guest} гостей`;
-//   } else if (rooms >=2 && rooms <=4 && guest === 1) {
-//     tag.textContent = `${rooms} комнаты для ${guest} гостя`;
-//   } else if (rooms >=2 && rooms <=4  && guest >= 2) {
-//     tag.textContent = `${rooms} комнаты для ${guest} гостей`;
-//   } else if (rooms >=5  && guest === 1) {
-//     tag.textContent = `${rooms} комнат для ${guest} гостя`;
-//   } else if (rooms >=5  && guest >= 2) {
-//     tag.textContent = `${rooms} комнат для ${guest} гостей`;
-//   }
-// };
-
+/**
+ * Функция подставления слова в зависимости от условия
+ * @param {rooms} rooms
+ * @returns string
+ */
 function getRoomWord (rooms) {
   if (rooms === 1){
     return 'комната';
@@ -59,6 +47,13 @@ function getGuestWord (guests) {
   return 'гостей';
 }
 
+/**
+ *
+ * @param {selector} tag
+ * @param {generation number} rooms
+ * @param {generation number} guest
+ * @return {string} строка с нужными окончаниями слов и количеством гостей и комнат
+ */
 function createCapacityMessage (tag, rooms, guest) {
   tag.textContent = `${rooms} ${getRoomWord(rooms)} для ${guest} ${getGuestWord(guest)}`;
 }

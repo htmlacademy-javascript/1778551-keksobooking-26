@@ -46,6 +46,14 @@ const GuestsAmount = {
   MAX_GUESTS: 10
 };
 
+const types = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель'
+};
+
 //Функция генерирует объявление
 
 function createsAd(index) {
@@ -76,4 +84,4 @@ function createsAd(index) {
 
 const createAds = (count) => Array.from({length: count}, (_, i) => createsAd(i + 1));
 
-export{createAds};
+export{createAds, types};
