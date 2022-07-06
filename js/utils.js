@@ -26,21 +26,42 @@ function getRandomFloat (a, b, digits = 1) {
 }
 
 //Функция для вывода правильного сообщение сколько гостей и комнат
-const createCapacityMessage = (tag, rooms, guest) => {
-  if (rooms === 1 && guest === 1) {
-    tag.textContent = `${rooms} комната для ${guest} гостя`;
-  } else if (rooms === 1 && guest === 2) {
-    tag.textContent = `${rooms} комната для ${guest} гостей`;
-  } else if (rooms >=2 && rooms <=4 && guest === 1) {
-    tag.textContent = `${rooms} комнаты для ${guest} гостя`;
-  } else if (rooms >=2 && rooms <=4  && guest >= 2) {
-    tag.textContent = `${rooms} комнаты для ${guest} гостей`;
-  } else if (rooms >=5  && guest === 1) {
-    tag.textContent = `${rooms} комнат для ${guest} гостя`;
-  } else if (rooms >=5  && guest >= 2) {
-    tag.textContent = `${rooms} комнат для ${guest} гостей`;
+// const createCapacityMessage = (tag, rooms, guest) => {
+//   if (rooms === 1 && guest === 1) {
+//     tag.textContent = `${rooms} комната для ${guest} гостя`;
+//   } else if (rooms === 1 && guest === 2) {
+//     tag.textContent = `${rooms} комната для ${guest} гостей`;
+//   } else if (rooms >=2 && rooms <=4 && guest === 1) {
+//     tag.textContent = `${rooms} комнаты для ${guest} гостя`;
+//   } else if (rooms >=2 && rooms <=4  && guest >= 2) {
+//     tag.textContent = `${rooms} комнаты для ${guest} гостей`;
+//   } else if (rooms >=5  && guest === 1) {
+//     tag.textContent = `${rooms} комнат для ${guest} гостя`;
+//   } else if (rooms >=5  && guest >= 2) {
+//     tag.textContent = `${rooms} комнат для ${guest} гостей`;
+//   }
+// };
+
+function getRoomWord (rooms) {
+  if (rooms === 1){
+    return 'комната';
   }
-};
+  if (rooms <=4) {
+    return 'комнаты';
+  }
+  return 'комнат';
+}
+
+function getGuestWord (guests) {
+  if (guests === 1){
+    return 'гостя';
+  }
+  return 'гостей';
+}
+
+function createCapacityMessage (tag, rooms, guest) {
+  tag.textContent = `${rooms} ${getRoomWord(rooms)} для ${guest} ${getGuestWord(guest)}`;
+}
 
 /**
  *Функция вызова случайного элемента массива
