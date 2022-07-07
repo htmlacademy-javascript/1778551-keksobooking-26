@@ -1,6 +1,7 @@
 import{ createAds } from './data.js';
 import { renderCard } from './card.js';
 import {activateForm} from './form.js';
+import './validate-form.js';
 
 //Количество выводимых объявлений
 const COUNT_ADS = 10;
