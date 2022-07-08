@@ -54,22 +54,6 @@ const types = {
   hotel: 'Отель'
 };
 
-const LengthTitle = {
-  MIN_SYMBOLS: 30,
-  MAX_SYMBOLS: 100
-};
-
-const MaxPriceAd = {
-  MAX_PRICE: 100000
-};
-
-const MaxCapacityGuestInRooms = {
-  '1': [1],
-  '2': [1, 2],
-  '3': [1, 2, 3],
-  '100': [0]
-};
-
 //Функция генерирует объявление
 
 function createsAd(index) {
@@ -100,4 +84,4 @@ function createsAd(index) {
 
 const createAds = (count) => Array.from({length: count}, (_, i) => createsAd(i + 1));
 
-export{createAds, types, LengthTitle, MaxPriceAd, MaxCapacityGuestInRooms};
+export{createAds, types};

@@ -1,8 +1,22 @@
-import {LengthTitle, MaxPriceAd, MaxCapacityGuestInRooms}  from './data.js';
-
 const adForm = document.querySelector('.ad-form');
 const rooms = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
+
+const LengthTitle = {
+  MIN_SYMBOLS: 30,
+  MAX_SYMBOLS: 100
+};
+
+const MaxPriceAd = {
+  MAX_PRICE: 100000
+};
+
+const MaxCapacityGuestInRooms = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0]
+};
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -68,7 +82,10 @@ pristine.addValidator(
   errorMessageCapacityGuestInRooms
 );
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
+function addValidatorsToForm () {
+  adForm.addEventListener('submit', () => {
+    pristine.validate();
+  });
+}
+
+export{addValidatorsToForm};
