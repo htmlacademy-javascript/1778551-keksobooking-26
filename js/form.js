@@ -25,4 +25,4 @@ const activateForm = (isActiveForm) => {
   }
 };
 
-export{activateForm};
+export{activateForm, adForm};
