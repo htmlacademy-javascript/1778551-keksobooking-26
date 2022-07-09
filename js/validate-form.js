@@ -11,18 +11,14 @@ const LengthTitle = {
   MAX_SYMBOLS: 100
 };
 
-const MaxPriceAmount = {
-  MAX_PRICE: 100000
-};
+const MAX_PRICE = 100000;
 
-const MinPriceAmount = {
-  MIN_PRICE: {
-    palace: 10000,
-    flat: 1000,
-    house: 5000,
-    bungalow: 0,
-    hotel: 3000
-  }
+const MinPrice = {
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalow: 0,
+  hotel: 3000
 };
 
 const ChangeWord = {
@@ -68,28 +64,6 @@ pristine.addValidator(
   errorMessageTitle);
 
 
-/**
- * @param {* MaxPriceAd} value
- * @returns максимальная сумма за ночь
- */
-function validateMaxPriceAdForm (value) {
-  return value <= MaxPriceAmount.MAX_PRICE;
-}
-
-/**
- * @returns String error максимальная сумма за ночь
- */
-function errorMessageMaxPrice () {
-  return `Максимальная сумма ${MaxPriceAmount.MAX_PRICE}`;
-}
-
-//валидация цены за ночь
-pristine.addValidator(
-  adForm.querySelector('#price'),
-  validateMaxPriceAdForm,
-  errorMessageMaxPrice);
-
-
 function validateCapacityGuestinRooms() {
   return  MaxCapacityGuestInRooms[+rooms.value].includes(+capacity.value);
 }
@@ -105,19 +79,23 @@ pristine.addValidator(
 );
 
 type.addEventListener('change', () => {
-  fieldPrice.placeholder = MinPriceAmount.MIN_PRICE[type.value];
-  fieldPrice.min = MinPriceAmount.MIN_PRICE[type.value];
+  fieldPrice.placeholder = MinPrice[type.value];
+  fieldPrice.min = MinPrice[type.value];
   fieldPrice.value = '';
 });
 
 function validatePrice (value) {
-  return value <= MaxPriceAmount.MAX_PRICE[type.value] && value >= MinPriceAmount.MIN_PRICE[type.value];
+  return value <= MAX_PRICE[type.value] && value >= MinPrice[type.value];
 }
 
 function errorMessagePrice () {
-  return (fieldPrice.value > MaxPriceAmount.MAX_PRICE[type.value])
-    ? `Стоимость ${ChangeWord[type.value]} не более ${MaxPriceAmount.MAX_PRICE[type.value]}р`
-    : `Стоимость ${ChangeWord[type.value]} не меньше ${MinPriceAmount.MIN_PRICE[type.value]}р`;
+  if (fieldPrice.value < MinPrice[type.value]) {
+    return `Стоимость ${ChangeWord[type.value]} не меньше ${MinPrice[type.value]}р`;
+  }
+  if(fieldPrice.value > MAX_PRICE) {
+    return `Стоимость ${ChangeWord[type.value]} не более ${MAX_PRICE}р`;
+  }
+
 }
 
 pristine.addValidator(fieldPrice, validatePrice, errorMessagePrice);
