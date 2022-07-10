@@ -1,14 +1,32 @@
 const adForm = document.querySelector('.ad-form');
 const rooms = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
+const fieldPrice = adForm.querySelector('#price');
+const type = adForm.querySelector('#type');
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
 
 const LengthTitle = {
   MIN_SYMBOLS: 30,
   MAX_SYMBOLS: 100
 };
 
-const MaxPriceAd = {
-  MAX_PRICE: 100000
+const MAX_PRICE = 100000;
+
+const MinPrice = {
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalow: 0,
+  hotel: 3000
+};
+
+const ChangeWord = {
+  palace: 'дворца',
+  flat: 'квартиры',
+  house: 'дома',
+  bungalow: 'бунгало',
+  hotel: 'отеля'
 };
 
 const MaxCapacityGuestInRooms = {
@@ -46,28 +64,6 @@ pristine.addValidator(
   errorMessageTitle);
 
 
-/**
- * @param {* MaxPriceAd} value
- * @returns максимальная сумма за ночь
- */
-function validateMaxPriceAdForm (value) {
-  return value <= MaxPriceAd.MAX_PRICE;
-}
-
-/**
- * @returns String error максимальная сумма за ночь
- */
-function errorMessageMaxPrice () {
-  return `Максимальная сумма ${MaxPriceAd.MAX_PRICE}`;
-}
-
-//валидация цены за ночь
-pristine.addValidator(
-  adForm.querySelector('#price'),
-  validateMaxPriceAdForm,
-  errorMessageMaxPrice);
-
-
 function validateCapacityGuestinRooms() {
   return  MaxCapacityGuestInRooms[+rooms.value].includes(+capacity.value);
 }
@@ -81,6 +77,48 @@ pristine.addValidator(
   validateCapacityGuestinRooms,
   errorMessageCapacityGuestInRooms
 );
+
+type.addEventListener('change', () => {
+  fieldPrice.placeholder = MinPrice[type.value];
+  fieldPrice.min = MinPrice[type.value];
+  fieldPrice.value = '';
+});
+
+function validatePrice (value) {
+  return value <= MAX_PRICE[type.value] && value >= MinPrice[type.value];
+}
+
+function errorMessagePrice () {
+  if (fieldPrice.value < MinPrice[type.value]) {
+    return `Стоимость ${ChangeWord[type.value]} не меньше ${MinPrice[type.value]}р`;
+  }
+  if(fieldPrice.value > MAX_PRICE) {
+    return `Стоимость ${ChangeWord[type.value]} не более ${MAX_PRICE}р`;
+  }
+
+}
+
+pristine.addValidator(fieldPrice, validatePrice, errorMessagePrice);
+
+timeIn.addEventListener('change', () => {
+  timeOut.value = timeIn.value;
+  pristine.validate();
+});
+
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
+  pristine.validate();
+});
+
+function validateTime () {
+  return  timeIn.value === timeOut.value;
+}
+
+function errorTime () {
+  return 'Время должно быть одинаково';
+}
+
+pristine.addValidator(timeOut, validateTime, errorTime);
 
 function addValidatorsToForm () {
   adForm.addEventListener('submit', () => {
