@@ -5,6 +5,8 @@ const fieldPrice = adForm.querySelector('#price');
 const type = adForm.querySelector('#type');
 const timeIn = adForm.querySelector('#timein');
 const timeOut = adForm.querySelector('#timeout');
+const sliderElement = document.querySelector('.ad-form__slider');
+const priceInput = adForm.querySelector('#price');
 
 const LengthTitle = {
   MIN_SYMBOLS: 30,
@@ -40,6 +42,28 @@ const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error-text',
+});
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: Number(priceInput.min),
+    max: Number(priceInput.max),
+  },
+  start: Number(priceInput.min),
+  step: 15,
+  connect: 'lower'
+});
+
+priceInput.min = MinPrice[type.value];
+
+sliderElement.noUiSlider.on('slide', () => {
+  const sliderValue = Number(sliderElement.noUiSlider.get());
+  priceInput.value = sliderValue;
+  pristine.validate(priceInput);
+});
+
+priceInput.addEventListener('change', (evt) => {
+  sliderElement.noUiSlider.set(Number(evt.target.value));
 });
 
 /**
