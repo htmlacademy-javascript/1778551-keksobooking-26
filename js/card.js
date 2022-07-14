@@ -1,7 +1,6 @@
 import {types} from './data.js';
 import {createCapacityMessage} from './utils.js';
 
-const mapCanvas = document.querySelector('#map-canvas');
 const template = document.querySelector('#card').content.querySelector('.popup');
 
 /**
@@ -49,7 +48,7 @@ const renderCard = (dataAd) => {
       photosContainer.append(photoClone);
     }
   });
-  mapCanvas.append(card);
+  return card;
 };
 
 export {renderCard};

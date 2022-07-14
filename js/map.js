@@ -1,14 +1,8 @@
-import {createAds} from './data.js';
 import {renderCard} from './card.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
 const addressInput = document.querySelector('#address');
 // const AVATAR_DEFAULT = 'img/muffin-grey.svg';
-
-// Количество выводимых объявлений
-const COUNT_ADS = 10;
-
-const generatedAds = createAds(COUNT_ADS);
 
 
 const defaultCoords = {
@@ -18,12 +12,11 @@ const defaultCoords = {
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    console.log('Карта инициализирована');
   })
   .setView({
     lat: 35.6895,
     lng: 139.692,
-  }, 16);
+  }, 13);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -61,16 +54,11 @@ resetButton.addEventListener('click', () => {
     lat: defaultCoords.lat,
     lng: defaultCoords.lng,
   });
-
-  map.setView({
-    lat: defaultCoords.lat,
-    lng: defaultCoords.lng,
-  }, 20);
 });
 
 //тут наверное нужно удалять обработчик событий
 mainPinMarker.on('moveend', (evt) => {
-  console.log(evt.target.getLatLng());
+  evt.target.getLatLng();
 });
 
 const setAdress = (lat, lng) => {
@@ -95,10 +83,13 @@ const createMarker = (dataAd) => {
     .bindPopup(renderCard(dataAd));
 };
 
-generatedAds.forEach((ad) => {
-  createMarker(ad);
-});
+
+const renderMarkers = function (generatedAds) {
+  generatedAds.forEach((ad) => {
+    createMarker(ad);
+  });
+};
 
 mainPinMarker.addTo(map);
 
-export {map};
+export {renderMarkers};
