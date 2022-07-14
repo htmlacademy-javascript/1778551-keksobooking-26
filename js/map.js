@@ -10,6 +10,8 @@ const defaultCoords = {
   lng: 139.692,
 };
 
+const COORDS_DIGITS = 5;
+
 const map = L.map('map-canvas')
   .on('load', () => {
   })
@@ -56,16 +58,20 @@ resetButton.addEventListener('click', () => {
   });
 });
 
-//тут наверное нужно удалять обработчик событий
-mainPinMarker.on('moveend', (evt) => {
-  evt.target.getLatLng();
-});
-
 const setAdress = (lat, lng) => {
   const addressLat = lat;
   const addressLng = lng;
   addressInput.value =  `Широта: ${addressLat}, долгота: ${addressLng}`;
 };
+
+//тут наверное нужно удалять обработчик событий
+mainPinMarker.on('moveend', (evt) => {
+  setAdress(
+    evt.target.getLatLng().lat.toFixed(COORDS_DIGITS),
+    evt.target.getLatLng().lng.toFixed(COORDS_DIGITS)
+  );
+});
+
 
 const markerGroup = L.layerGroup().addTo(map);
 
