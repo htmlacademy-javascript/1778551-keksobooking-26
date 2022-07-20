@@ -1,24 +1,13 @@
 import {renderCard} from './card.js';
 
-const resetButton = document.querySelector('.ad-form__reset');
-const addressInput = document.querySelector('#address');
-// const AVATAR_DEFAULT = 'img/muffin-grey.svg';
-
-
-const defaultCoords = {
-  lat: 35.6895,
-  lng: 139.692,
-};
-
+const DEFAULT_ZOOM = 13;
 const COORDS_DIGITS = 5;
-
-const map = L.map('map-canvas')
-  .on('load', () => {
-  })
-  .setView({
-    lat: 35.6895,
-    lng: 139.692,
-  }, 13);
+const addressInput = document.querySelector('#address');
+const defaultCoords = {
+  lat: '35.68950',
+  lng: '139.69200',
+};
+const map = L.map('map-canvas');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -34,28 +23,19 @@ const mainPinIcon = L.icon({
 });
 
 const mainPinMarker = L.marker(
-  {
-    lat: defaultCoords.lat,
-    lng: defaultCoords.lng,
-  },
+  defaultCoords,
   {
     draggable: true,
     icon: mainPinIcon,
   },
 );
 
+mainPinMarker.addTo(map);
+
 const adPinIcon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
-});
-
-//кнопка возвращает маркер в начальное место
-resetButton.addEventListener('click', () => {
-  mainPinMarker.setLatLng({
-    lat: defaultCoords.lat,
-    lng: defaultCoords.lng,
-  });
 });
 
 const setAdress = (lat, lng) => {
@@ -64,14 +44,12 @@ const setAdress = (lat, lng) => {
   addressInput.value =  `Широта: ${addressLat}, долгота: ${addressLng}`;
 };
 
-//тут наверное нужно удалять обработчик событий
 mainPinMarker.on('moveend', (evt) => {
   setAdress(
     evt.target.getLatLng().lat.toFixed(COORDS_DIGITS),
     evt.target.getLatLng().lng.toFixed(COORDS_DIGITS)
   );
 });
-
 
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -89,13 +67,16 @@ const createMarker = (dataAd) => {
     .bindPopup(renderCard(dataAd));
 };
 
-
-const renderMarkers = function (generatedAds) {
-  generatedAds.forEach((ad) => {
-    createMarker(ad);
-  });
+const clearMarkers = () => {
+  markerGroup.clearLayers();
 };
 
-mainPinMarker.addTo(map);
-
-export {renderMarkers};
+export {
+  map,
+  defaultCoords,
+  DEFAULT_ZOOM,
+  setAdress,
+  clearMarkers,
+  mainPinMarker,
+  createMarker
+};
