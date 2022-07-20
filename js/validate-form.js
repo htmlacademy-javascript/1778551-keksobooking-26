@@ -1,21 +1,24 @@
+import { sendData } from './api.js';
+import { errorPopupMessage, showPopupError } from './popup.js';
+
+const MAX_PRICE = 100000;
 const adForm = document.querySelector('.ad-form');
-const rooms = adForm.querySelector('#room_number');
-const capacity = adForm.querySelector('#capacity');
-const fieldPrice = adForm.querySelector('#price');
-const type = adForm.querySelector('#type');
-const timeIn = adForm.querySelector('#timein');
-const timeOut = adForm.querySelector('#timeout');
-const sliderElement = document.querySelector('.ad-form__slider');
+const titleInput = adForm.querySelector('#title');
+const capacityInput = adForm.querySelector('#capacity');
+const roomInput = adForm.querySelector('#room_number');
 const priceInput = adForm.querySelector('#price');
+const typeInput = adForm.querySelector('#type');
+const timeInInput = adForm.querySelector('#timein');
+const timeOutInput = adForm.querySelector('#timeout');
+const submitButton = adForm.querySelector('.ad-form__submit');
+const sliderElement = document.querySelector('.ad-form__slider');
 
 const LengthTitle = {
   MIN_SYMBOLS: 30,
   MAX_SYMBOLS: 100
 };
 
-const MAX_PRICE = 100000;
-
-const MinPrice = {
+const minPrice = {
   palace: 10000,
   flat: 1000,
   house: 5000,
@@ -23,7 +26,7 @@ const MinPrice = {
   hotel: 3000
 };
 
-const ChangeWord = {
+const changeWord = {
   palace: 'дворца',
   flat: 'квартиры',
   house: 'дома',
@@ -31,7 +34,7 @@ const ChangeWord = {
   hotel: 'отеля'
 };
 
-const MaxCapacityGuestInRooms = {
+const maxCapacityGuestInRooms = {
   1: [1],
   2: [1, 2],
   3: [1, 2, 3],
@@ -54,7 +57,7 @@ noUiSlider.create(sliderElement, {
   connect: 'lower'
 });
 
-priceInput.min = MinPrice[type.value];
+priceInput.min = minPrice[typeInput.value];
 
 sliderElement.noUiSlider.on('slide', () => {
   const sliderValue = Number(sliderElement.noUiSlider.get());
@@ -66,88 +69,103 @@ priceInput.addEventListener('change', (evt) => {
   sliderElement.noUiSlider.set(Number(evt.target.value));
 });
 
-/**
- * @param {*LengthTitle} value
- * @returns количество символов заголовка объявления от и до
- */
-function validateLengthTitleAdForm (value) {
-  return value.length >= LengthTitle.MIN_SYMBOLS && value.length <= LengthTitle.MAX_SYMBOLS;
-}
+const validateLengthTitleAdForm = () => {
+  const titleTrimmed = titleInput.value.trim();
+  return titleTrimmed.length >= LengthTitle.MIN_SYMBOLS && titleTrimmed.length <= LengthTitle.MAX_SYMBOLS;
+};
 
-/**
- * @returns  @returns String error минимальное и максимальное количестов символов
- */
-function errorMessageTitle () {
-  return `Введите от ${LengthTitle.MIN_SYMBOLS} до ${LengthTitle.MAX_SYMBOLS} символов`;
-}
+const errorMessageTitle = () => `Введите от ${LengthTitle.MIN_SYMBOLS} до ${LengthTitle.MAX_SYMBOLS} символов`;
 
-//валидация заголовка
 pristine.addValidator(
-  adForm.querySelector('#title'),
+  titleInput,
   validateLengthTitleAdForm,
-  errorMessageTitle);
+  errorMessageTitle,
+);
 
+const validateCapacityGuestinRooms = () => maxCapacityGuestInRooms[+roomInput.value].includes(+capacityInput.value);
 
-function validateCapacityGuestinRooms() {
-  return  MaxCapacityGuestInRooms[+rooms.value].includes(+capacity.value);
-}
-
-function errorMessageCapacityGuestInRooms() {
-  return 'Неверное значение';
-}
+const errorMessageCapacityGuestInRooms = () => 'Неверное значение';
 
 pristine.addValidator(
-  capacity,
+  capacityInput,
   validateCapacityGuestinRooms,
   errorMessageCapacityGuestInRooms
 );
 
-type.addEventListener('change', () => {
-  fieldPrice.placeholder = MinPrice[type.value];
-  fieldPrice.min = MinPrice[type.value];
-  fieldPrice.value = '';
+typeInput.addEventListener('change', () => {
+  priceInput.placeholder = minPrice[typeInput.value];
+  priceInput.min = minPrice[typeInput.value];
+  priceInput.value = '';
 });
 
-function validatePrice (value) {
-  return value <= MAX_PRICE[type.value] && value >= MinPrice[type.value];
-}
+const validatePrice = (value) => value <= MAX_PRICE && value >= minPrice[typeInput.value];
 
-function errorMessagePrice () {
-  if (fieldPrice.value < MinPrice[type.value]) {
-    return `Стоимость ${ChangeWord[type.value]} не меньше ${MinPrice[type.value]}р`;
+const errorMessagePrice = () => {
+  if (priceInput.value < minPrice[typeInput.value]) {
+    return `Стоимость ${changeWord[typeInput.value]} не меньше ${minPrice[typeInput.value]}р`;
   }
-  if(fieldPrice.value > MAX_PRICE) {
-    return `Стоимость ${ChangeWord[type.value]} не более ${MAX_PRICE}р`;
+  if (priceInput.value > MAX_PRICE) {
+    return `Стоимость ${changeWord[typeInput.value]} не более ${MAX_PRICE}р`;
   }
+};
 
-}
+pristine.addValidator(
+  priceInput,
+  validatePrice,
+  errorMessagePrice
+);
 
-pristine.addValidator(fieldPrice, validatePrice, errorMessagePrice);
-
-timeIn.addEventListener('change', () => {
-  timeOut.value = timeIn.value;
+timeInInput.addEventListener('change', () => {
+  timeOutInput.value = timeInInput.value;
   pristine.validate();
 });
 
-timeOut.addEventListener('change', () => {
-  timeIn.value = timeOut.value;
+timeOutInput.addEventListener('change', () => {
+  timeInInput.value = timeOutInput.value;
   pristine.validate();
 });
 
-function validateTime () {
-  return  timeIn.value === timeOut.value;
-}
+const validateTime = () => timeInInput.value === timeOutInput.value;
 
-function errorTime () {
-  return 'Время должно быть одинаково';
-}
+const errorTime = () => 'Время должно быть одинаково';
 
-pristine.addValidator(timeOut, validateTime, errorTime);
+pristine.addValidator(timeOutInput, validateTime, errorTime);
 
-function addValidatorsToForm () {
-  adForm.addEventListener('submit', () => {
-    pristine.validate();
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Отправка...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const addsValidatorsToForm = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValidate = pristine.validate();
+
+
+    if (isValidate) {
+      const formData = new FormData(evt.target);
+      blockSubmitButton();
+
+      sendData(formData, onSuccess, () => {
+        showPopupError(errorPopupMessage.textContent);
+        unblockSubmitButton();
+      });
+    }
   });
-}
+};
 
-export{addValidatorsToForm};
+export {
+  sliderElement,
+  priceInput,
+  minPrice,
+  typeInput,
+  addsValidatorsToForm,
+  adForm,
+  unblockSubmitButton,
+  pristine
+};
