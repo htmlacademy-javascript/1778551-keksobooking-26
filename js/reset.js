@@ -1,20 +1,21 @@
+import { adForm } from './activate-form.js';
 import { clearMarkers, defaultCoords, DEFAULT_ZOOM, mainPinMarker, map, setAdress } from './map.js';
-import { previewAvatar, previewPhotoHome } from './photo.js';
-import { showPopupSuccess, successPopupMessage } from './popup.js';
-import { addsValidatorsToForm, adForm, minPrice, priceInput, pristine, sliderElement, typeInput, unblockSubmitButton} from './validate-form.js';
+import { previewAvatarElement, previewPhotoHomeElement } from './photo.js';
+import { showPopupSuccess, successPopupMessageElement } from './popup.js';
+import { addsValidatorsToForm, minPrice, priceInputElement, pristine, sliderElement, typeInputElement, unblockSubmitButton } from './validate-form.js';
 
-const AVATAR = 'img/muffin-grey.svg';
-const formMapFilters = document.querySelector('.map__filters');
-const resetButton = document.querySelector('.ad-form__reset');
+const AVATAR_URL_DEFAULT = 'img/muffin-grey.svg';
+const formMapFiltersElement = document.querySelector('.map__filters');
+const resetButtonElement = document.querySelector('.ad-form__reset');
 
 const resetDataForm = (form) => {
   form.reset();
-  formMapFilters.reset();
+  formMapFiltersElement.reset();
   setAdress(defaultCoords.lat, defaultCoords.lng);
   map.closePopup();
-  previewAvatar.src = AVATAR;
-  previewPhotoHome.innerHTML = '';
-  priceInput.placeholder = minPrice[typeInput.value];
+  previewAvatarElement.src = AVATAR_URL_DEFAULT;
+  previewPhotoHomeElement.innerHTML = '';
+  priceInputElement.placeholder = minPrice[typeInputElement.value];
   sliderElement.noUiSlider.reset();
 
   mainPinMarker.setLatLng(
@@ -30,7 +31,7 @@ const resetDataForm = (form) => {
 
 const resetFormSuccess = (cb) => {
   addsValidatorsToForm(() => {
-    showPopupSuccess(successPopupMessage.textContent);
+    showPopupSuccess(successPopupMessageElement.textContent);
     resetDataForm(adForm);
     cb();
     unblockSubmitButton();
@@ -38,7 +39,7 @@ const resetFormSuccess = (cb) => {
 };
 
 const resetFormButton = (cb) => {
-  resetButton.addEventListener('click', (evt) => {
+  resetButtonElement.addEventListener('click', (evt) => {
     evt.preventDefault();
     pristine.reset();
     resetDataForm(adForm);
@@ -47,7 +48,6 @@ const resetFormButton = (cb) => {
 };
 
 export {
-  resetDataForm,
   resetFormButton,
   resetFormSuccess
 };

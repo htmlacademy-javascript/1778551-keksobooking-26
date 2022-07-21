@@ -19,18 +19,18 @@ const priceForFilter = {
 };
 
 const filtersWrapper = document.querySelector('.map__filters');
-const filterTypeSelect = filtersWrapper.querySelector('#housing-type');
-const filterPriceSelect = filtersWrapper.querySelector('#housing-price');
-const filterRoomsSelect = filtersWrapper.querySelector('#housing-rooms');
-const filterGuestsSelect = filtersWrapper.querySelector('#housing-guests');
-const featuresFilter = filtersWrapper.querySelectorAll('.map__checkbox');
+const filterTypeElement = filtersWrapper.querySelector('#housing-type');
+const filterPriceElement = filtersWrapper.querySelector('#housing-price');
+const filterRoomsElement = filtersWrapper.querySelector('#housing-rooms');
+const filterGuestsElement = filtersWrapper.querySelector('#housing-guests');
+const featuresFilterElements = filtersWrapper.querySelectorAll('.map__checkbox');
 
-const findType = (ad) => filterTypeSelect.value === DEFAULT_VALUE || ad.offer.type === filterTypeSelect.value;
-const findPrice = (ad) => filterPriceSelect.value === DEFAULT_VALUE || (ad.offer.price >= priceForFilter[filterPriceSelect.value].start && ad.offer.price <= priceForFilter[filterPriceSelect.value].end);
-const findRooms = (ad) => filterRoomsSelect.value === DEFAULT_VALUE || ad.offer.rooms === +filterRoomsSelect.value;
-const findGuests = (ad) => filterGuestsSelect.value === DEFAULT_VALUE || ad.offer.guests === +filterGuestsSelect.value;
+const findType = (ad) => filterTypeElement.value === DEFAULT_VALUE || ad.offer.type === filterTypeElement.value;
+const findPrice = (ad) => filterPriceElement.value === DEFAULT_VALUE || (ad.offer.price >= priceForFilter[filterPriceElement.value].start && ad.offer.price <= priceForFilter[filterPriceElement.value].end);
+const findRooms = (ad) => filterRoomsElement.value === DEFAULT_VALUE || ad.offer.rooms === +filterRoomsElement.value;
+const findGuests = (ad) => filterGuestsElement.value === DEFAULT_VALUE || ad.offer.guests === +filterGuestsElement.value;
 
-const findFeatures = (ad) => Array.from(featuresFilter)
+const findFeatures = (ad) => Array.from(featuresFilterElements)
   .every((filterFeature) => {
     if (!filterFeature.checked) {
       return true;

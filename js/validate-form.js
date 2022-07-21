@@ -1,16 +1,16 @@
+import { adForm } from './activate-form.js';
 import { sendData } from './api.js';
-import { errorPopupMessage, showPopupError } from './popup.js';
+import { errorPopupMessageElement, showPopupError } from './popup.js';
 
 const MAX_PRICE = 100000;
-const adForm = document.querySelector('.ad-form');
-const titleInput = adForm.querySelector('#title');
-const capacityInput = adForm.querySelector('#capacity');
-const roomInput = adForm.querySelector('#room_number');
-const priceInput = adForm.querySelector('#price');
-const typeInput = adForm.querySelector('#type');
-const timeInInput = adForm.querySelector('#timein');
-const timeOutInput = adForm.querySelector('#timeout');
-const submitButton = adForm.querySelector('.ad-form__submit');
+const titleInputElement = adForm.querySelector('#title');
+const capacityInputElement = adForm.querySelector('#capacity');
+const roomInputElement = adForm.querySelector('#room_number');
+const priceInputElement = adForm.querySelector('#price');
+const typeInputElement = adForm.querySelector('#type');
+const timeInInputElement = adForm.querySelector('#timein');
+const timeOutInputElement = adForm.querySelector('#timeout');
+const submitButtonElement = adForm.querySelector('.ad-form__submit');
 const sliderElement = document.querySelector('.ad-form__slider');
 
 const LengthTitle = {
@@ -49,96 +49,100 @@ const pristine = new Pristine(adForm, {
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: Number(priceInput.min),
-    max: Number(priceInput.max),
+    min: Number(priceInputElement.min),
+    max: Number(priceInputElement.max),
   },
-  start: Number(priceInput.min),
+  start: Number(priceInputElement.min),
   step: 15,
   connect: 'lower'
 });
 
-priceInput.min = minPrice[typeInput.value];
+priceInputElement.min = minPrice[typeInputElement.value];
 
 sliderElement.noUiSlider.on('slide', () => {
   const sliderValue = Number(sliderElement.noUiSlider.get());
-  priceInput.value = sliderValue;
-  pristine.validate(priceInput);
+  priceInputElement.value = sliderValue;
+  pristine.validate(priceInputElement);
 });
 
-priceInput.addEventListener('change', (evt) => {
+priceInputElement.addEventListener('change', (evt) => {
   sliderElement.noUiSlider.set(Number(evt.target.value));
 });
 
 const validateLengthTitleAdForm = () => {
-  const titleTrimmed = titleInput.value.trim();
+  const titleTrimmed = titleInputElement.value.trim();
   return titleTrimmed.length >= LengthTitle.MIN_SYMBOLS && titleTrimmed.length <= LengthTitle.MAX_SYMBOLS;
 };
 
-const errorMessageTitle = () => `Введите от ${LengthTitle.MIN_SYMBOLS} до ${LengthTitle.MAX_SYMBOLS} символов`;
+const showErrorMessageTitle = () => `Введите от ${LengthTitle.MIN_SYMBOLS} до ${LengthTitle.MAX_SYMBOLS} символов`;
 
 pristine.addValidator(
-  titleInput,
+  titleInputElement,
   validateLengthTitleAdForm,
-  errorMessageTitle,
+  showErrorMessageTitle,
 );
 
-const validateCapacityGuestinRooms = () => maxCapacityGuestInRooms[+roomInput.value].includes(+capacityInput.value);
+const validateCapacityGuestinRooms = () => maxCapacityGuestInRooms[+roomInputElement.value].includes(+capacityInputElement.value);
 
-const errorMessageCapacityGuestInRooms = () => 'Неверное значение';
+const showErrorMessageCapacityGuestInRooms = () => 'Неверное значение';
 
 pristine.addValidator(
-  capacityInput,
+  capacityInputElement,
   validateCapacityGuestinRooms,
-  errorMessageCapacityGuestInRooms
+  showErrorMessageCapacityGuestInRooms
 );
 
-typeInput.addEventListener('change', () => {
-  priceInput.placeholder = minPrice[typeInput.value];
-  priceInput.min = minPrice[typeInput.value];
-  priceInput.value = '';
+typeInputElement.addEventListener('change', () => {
+  priceInputElement.placeholder = minPrice[typeInputElement.value];
+  priceInputElement.min = minPrice[typeInputElement.value];
+  priceInputElement.value = '';
 });
 
-const validatePrice = (value) => value <= MAX_PRICE && value >= minPrice[typeInput.value];
+const validatePrice = (value) => value <= MAX_PRICE && value >= minPrice[typeInputElement.value];
 
-const errorMessagePrice = () => {
-  if (priceInput.value < minPrice[typeInput.value]) {
-    return `Стоимость ${changeWord[typeInput.value]} не меньше ${minPrice[typeInput.value]}р`;
+const showErrorMessagePrice = () => {
+  if (priceInputElement.value < minPrice[typeInputElement.value]) {
+    return `Стоимость ${changeWord[typeInputElement.value]} не меньше ${minPrice[typeInputElement.value]}р`;
   }
-  if (priceInput.value > MAX_PRICE) {
-    return `Стоимость ${changeWord[typeInput.value]} не более ${MAX_PRICE}р`;
+  if (priceInputElement.value > MAX_PRICE) {
+    return `Стоимость ${changeWord[typeInputElement.value]} не более ${MAX_PRICE}р`;
   }
 };
 
 pristine.addValidator(
-  priceInput,
+  priceInputElement,
   validatePrice,
-  errorMessagePrice
+  showErrorMessagePrice
 );
 
-timeInInput.addEventListener('change', () => {
-  timeOutInput.value = timeInInput.value;
+timeInInputElement.addEventListener('change', () => {
+  timeOutInputElement.value = timeInInputElement.value;
   pristine.validate();
 });
 
-timeOutInput.addEventListener('change', () => {
-  timeInInput.value = timeOutInput.value;
+timeOutInputElement.addEventListener('change', () => {
+  timeInInputElement.value = timeOutInputElement.value;
   pristine.validate();
 });
 
-const validateTime = () => timeInInput.value === timeOutInput.value;
+const validateTime = () => timeInInputElement.value === timeOutInputElement.value;
 
-const errorTime = () => 'Время должно быть одинаково';
+const showErrorTime = () => 'Время должно быть одинаково';
 
-pristine.addValidator(timeOutInput, validateTime, errorTime);
+pristine.addValidator(
+  timeOutInputElement,
+  validateTime,
+  showErrorTime
+);
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Отправка...';
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Отправка...';
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
 };
 
 const addsValidatorsToForm = (onSuccess) => {
@@ -152,7 +156,7 @@ const addsValidatorsToForm = (onSuccess) => {
       blockSubmitButton();
 
       sendData(formData, onSuccess, () => {
-        showPopupError(errorPopupMessage.textContent);
+        showPopupError(errorPopupMessageElement.textContent);
         unblockSubmitButton();
       });
     }
@@ -161,11 +165,10 @@ const addsValidatorsToForm = (onSuccess) => {
 
 export {
   sliderElement,
-  priceInput,
+  priceInputElement,
   minPrice,
-  typeInput,
+  typeInputElement,
   addsValidatorsToForm,
-  adForm,
   unblockSubmitButton,
   pristine
 };

@@ -1,4 +1,4 @@
-import {createCapacityMessage} from './utils.js';
+import { createCapacityMessage } from './utils.js';
 
 const template = document.querySelector('#card').content.querySelector('.popup');
 const types = {
@@ -99,5 +99,7 @@ const renderCard = (dataAd) => {
   return card;
 };
 
-export {renderCard};
+export {
+  renderCard
+};
 
