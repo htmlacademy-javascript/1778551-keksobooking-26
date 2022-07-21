@@ -1,8 +1,8 @@
-import {renderCard} from './card.js';
+import { renderCard } from './card.js';
 
 const DEFAULT_ZOOM = 13;
 const COORDS_DIGITS = 5;
-const addressInput = document.querySelector('#address');
+const addressInputElement = document.querySelector('#address');
 const defaultCoords = {
   lat: '35.68950',
   lng: '139.69200',
@@ -41,7 +41,7 @@ const adPinIcon = L.icon({
 const setAdress = (lat, lng) => {
   const addressLat = lat;
   const addressLng = lng;
-  addressInput.value =  `Широта: ${addressLat}, долгота: ${addressLng}`;
+  addressInputElement.value =  `Широта: ${addressLat}, долгота: ${addressLng}`;
 };
 
 mainPinMarker.on('moveend', (evt) => {

@@ -1,9 +1,9 @@
 const SHOW_TIME = 5000;
 const successPopupWrapper = document.querySelector('#success').content.querySelector('.success');
-const successPopupMessage = successPopupWrapper.querySelector('.success__message');
+const successPopupMessageElement = successPopupWrapper.querySelector('.success__message');
 const errorPopupWrapper = document.querySelector('#error').content.querySelector('.error');
-const errorPopupMessage = errorPopupWrapper.querySelector('.error__message');
-const errorPopupButton = errorPopupWrapper.querySelector('.error__button');
+const errorPopupMessageElement = errorPopupWrapper.querySelector('.error__message');
+const errorPopupButtonElement = errorPopupWrapper.querySelector('.error__button');
 
 const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
@@ -28,7 +28,7 @@ function removePopup () {
 
 const showPopupSuccess = (text) => {
   document.body.append(successPopupWrapper);
-  successPopupMessage.textContent = text;
+  successPopupMessageElement.textContent = text;
 
   setTimeout(() => {
     successPopupWrapper.remove();
@@ -39,10 +39,10 @@ const showPopupSuccess = (text) => {
 
 const showPopupError = (text) => {
   document.body.append(errorPopupWrapper);
-  errorPopupWrapper.append(errorPopupButton);
-  errorPopupMessage.textContent = text;
+  errorPopupWrapper.append(errorPopupButtonElement);
+  errorPopupMessageElement.textContent = text;
 
-  errorPopupButton.addEventListener('click', () => {
+  errorPopupButtonElement.addEventListener('click', () => {
     errorPopupWrapper.remove();
   });
 
@@ -52,7 +52,7 @@ const showPopupError = (text) => {
 
 export {
   showPopupError,
-  errorPopupMessage,
+  errorPopupMessageElement,
   showPopupSuccess,
-  successPopupMessage
+  successPopupMessageElement
 };

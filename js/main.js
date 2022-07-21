@@ -1,5 +1,5 @@
-import {activateForm} from './activate-form.js';
-import {defaultCoords, DEFAULT_ZOOM, map, setAdress} from './map.js';
+import { activateForm } from './activate-form.js';
+import { defaultCoords, DEFAULT_ZOOM, map, setAdress } from './map.js';
 import { getData } from './api.js';
 import { debounce} from './utils.js';
 import { showAds, createPins } from './filters-form.js';
