@@ -1,9 +1,9 @@
 const SHOW_TIME = 5000;
-const successPopupWrapper = document.querySelector('#success').content.querySelector('.success');
-const successPopupMessageElement = successPopupWrapper.querySelector('.success__message');
-const errorPopupWrapper = document.querySelector('#error').content.querySelector('.error');
-const errorPopupMessageElement = errorPopupWrapper.querySelector('.error__message');
-const errorPopupButtonElement = errorPopupWrapper.querySelector('.error__button');
+const successPopupElement = document.querySelector('#success').content.querySelector('.success');
+const successPopupMessageElement = successPopupElement.querySelector('.success__message');
+const errorPopupElement = document.querySelector('#error').content.querySelector('.error');
+const errorPopupMessageElement = errorPopupElement.querySelector('.error__message');
+const errorPopupButtonElement = errorPopupElement.querySelector('.error__button');
 
 const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
@@ -19,31 +19,31 @@ const onPopupClick = () => {
 };
 
 function removePopup () {
-  successPopupWrapper.remove();
-  errorPopupWrapper.remove();
+  successPopupElement.remove();
+  errorPopupElement.remove();
 
   document.removeEventListener('keydown', onPopupEscKeydown);
   document.removeEventListener('click', onPopupClick);
 }
 
 const showPopupSuccess = (text) => {
-  document.body.append(successPopupWrapper);
+  document.body.append(successPopupElement);
   successPopupMessageElement.textContent = text;
 
   setTimeout(() => {
-    successPopupWrapper.remove();
+    successPopupElement.remove();
   }, SHOW_TIME);
   document.addEventListener('click', onPopupClick);
   document.addEventListener('keydown', onPopupEscKeydown);
 };
 
 const showPopupError = (text) => {
-  document.body.append(errorPopupWrapper);
-  errorPopupWrapper.append(errorPopupButtonElement);
+  document.body.append(errorPopupElement);
+  errorPopupElement.append(errorPopupButtonElement);
   errorPopupMessageElement.textContent = text;
 
   errorPopupButtonElement.addEventListener('click', () => {
-    errorPopupWrapper.remove();
+    errorPopupElement.remove();
   });
 
   document.addEventListener('click', onPopupClick);
