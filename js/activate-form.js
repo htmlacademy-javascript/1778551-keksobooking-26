@@ -1,5 +1,5 @@
-const mapFilters = document.querySelector('.map__filters');
-const mapFiltersElements = mapFilters.children;
+const mapFiltersElement = document.querySelector('.map__filters');
+const mapFiltersElements = mapFiltersElement.children;
 const adForm = document.querySelector('.ad-form');
 const adFormElements = adForm.children;
 
@@ -9,7 +9,7 @@ const activateForm = (isActiveForm) => {
     for (const element of adFormElements) {
       element.disabled = false;
     }
-    mapFilters.classList.remove('map__filters--disabled');
+    mapFiltersElement.classList.remove('map__filters--disabled');
     for (const element of mapFiltersElements) {
       element.disabled = false;
     }
@@ -18,7 +18,7 @@ const activateForm = (isActiveForm) => {
     for (const element of adFormElements) {
       element.disabled = true;
     }
-    mapFilters.classList.add('map__filters--disabled');
+    mapFiltersElement.classList.add('map__filters--disabled');
     for (const element of mapFiltersElements) {
       element.disabled = true;
     }

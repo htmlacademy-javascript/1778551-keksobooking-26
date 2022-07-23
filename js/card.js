@@ -1,6 +1,6 @@
 import { createCapacityMessage } from './utils.js';
 
-const template = document.querySelector('#card').content.querySelector('.popup');
+const templateElement = document.querySelector('#card').content.querySelector('.popup');
 const types = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -56,47 +56,47 @@ const addsImg = (dataSrc, container, photo) => {
 };
 
 const renderCard = (dataAd) => {
-  const card = template.cloneNode(true);
+  const cardElement = templateElement.cloneNode(true);
 
-  const cardAvatar = card.querySelector('.popup__avatar');
+  const cardAvatar = cardElement.querySelector('.popup__avatar');
   removePhotoElementWithoutData(dataAd.author.avatar, cardAvatar);
 
-  const cardTitle = card.querySelector('.popup__title');
-  removeElementWithoutData(dataAd.offer.title, cardTitle);
+  const cardTitleElement = cardElement.querySelector('.popup__title');
+  removeElementWithoutData(dataAd.offer.title, cardTitleElement);
 
-  const cardAddress = card.querySelector('.popup__text--address');
-  removeElementWithoutData(dataAd.offer.address, cardAddress);
+  const cardAddressElement = cardElement.querySelector('.popup__text--address');
+  removeElementWithoutData(dataAd.offer.address, cardAddressElement);
 
-  const cardPrice = card.querySelector('.popup__text--price');
-  cardPrice.textContent = `${dataAd.offer.price}  ₽/ночь`;
+  const cardPriceElement = cardElement.querySelector('.popup__text--price');
+  cardPriceElement.textContent = `${dataAd.offer.price}  ₽/ночь`;
 
-  const cardType = card.querySelector('.popup__type');
+  const cardTypeElement = cardElement.querySelector('.popup__type');
   if(!dataAd.offer.type) {
-    cardType.remove();
+    cardTypeElement.remove();
   } else {
-    cardType.textContent = types[dataAd.offer.type];
+    cardTypeElement.textContent = types[dataAd.offer.type];
   }
 
-  const cardCapacity = card.querySelector('.popup__text--capacity');
-  createCapacityMessage(cardCapacity, dataAd.offer.rooms, dataAd.offer.guests);
+  const cardCapacityElement = cardElement.querySelector('.popup__text--capacity');
+  createCapacityMessage(cardCapacityElement, dataAd.offer.rooms, dataAd.offer.guests);
 
-  const cardTime = card.querySelector('.popup__text--time');
-  cardTime.textContent = `Заезд после ${dataAd.offer.checkin}, выезд до ${dataAd.offer.checkout}`;
+  const cardTimeElement = cardElement.querySelector('.popup__text--time');
+  cardTimeElement.textContent = `Заезд после ${dataAd.offer.checkin}, выезд до ${dataAd.offer.checkout}`;
 
   const cardFeatures = dataAd.offer.features;
-  const cardFeaturesContainer = card.querySelector('.popup__features');
-  const cardFeaturesItems = card.querySelectorAll('.popup__feature');
-  removeExtraFeatures(cardFeatures, cardFeaturesContainer, cardFeaturesItems);
+  const cardFeaturesElements = cardElement.querySelector('.popup__features');
+  const cardFeaturesElement = cardElement.querySelectorAll('.popup__feature');
+  removeExtraFeatures(cardFeatures, cardFeaturesElements, cardFeaturesElement);
 
-  const cardDescription = card.querySelector('.popup__description');
-  cardDescription.textContent = dataAd.offer.description;
+  const cardDescriptionElement = cardElement.querySelector('.popup__description');
+  cardDescriptionElement.textContent = dataAd.offer.description;
 
   const randomSrc = dataAd.offer.photos;
-  const photosContainer = card.querySelector('.popup__photos');
-  const cardPhoto = card.querySelector('.popup__photo');
-  addsImg(randomSrc, photosContainer, cardPhoto);
+  const photosElements = cardElement.querySelector('.popup__photos');
+  const cardPhotoElement = cardElement.querySelector('.popup__photo');
+  addsImg(randomSrc, photosElements, cardPhotoElement);
 
-  return card;
+  return cardElement;
 };
 
 export {

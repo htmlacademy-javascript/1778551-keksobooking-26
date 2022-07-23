@@ -18,12 +18,12 @@ const priceForFilter = {
   }
 };
 
-const filtersWrapper = document.querySelector('.map__filters');
-const filterTypeElement = filtersWrapper.querySelector('#housing-type');
-const filterPriceElement = filtersWrapper.querySelector('#housing-price');
-const filterRoomsElement = filtersWrapper.querySelector('#housing-rooms');
-const filterGuestsElement = filtersWrapper.querySelector('#housing-guests');
-const featuresFilterElements = filtersWrapper.querySelectorAll('.map__checkbox');
+const filtersElement = document.querySelector('.map__filters');
+const filterTypeElement = filtersElement.querySelector('#housing-type');
+const filterPriceElement = filtersElement.querySelector('#housing-price');
+const filterRoomsElement = filtersElement.querySelector('#housing-rooms');
+const filterGuestsElement = filtersElement.querySelector('#housing-guests');
+const featuresFilterElements = filtersElement.querySelectorAll('.map__checkbox');
 
 const findType = (ad) => filterTypeElement.value === DEFAULT_VALUE || ad.offer.type === filterTypeElement.value;
 const findPrice = (ad) => filterPriceElement.value === DEFAULT_VALUE || (ad.offer.price >= priceForFilter[filterPriceElement.value].start && ad.offer.price <= priceForFilter[filterPriceElement.value].end);
@@ -66,7 +66,7 @@ const showAds = (ads) => {
 
 
 const createPins = (cb) => {
-  filtersWrapper.addEventListener('change', () => {
+  filtersElement.addEventListener('change', () => {
     clearMarkers();
     cb();
   });
